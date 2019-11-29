@@ -73,10 +73,10 @@ export class KoaHttp2Proxy {
     }
     if (this.proxyOptions.xfwd) {
       proxyReq.setHeader('x-forwarded-for', req.socket.remoteAddress);
-      proxyReq.setHeader(
-        'x-forwarded-proto',
-        req.socket.encrypted ? 'https' : 'http'
-      );
+      const proto =
+        req.headers['x-forwarded-proto'] ||
+        (req.socket.encrypted ? 'https' : 'http');
+      proxyReq.setHeader('x-forwarded-proto', proto);
       proxyReq.setHeader('x-forwarded-host', req.headers.host);
     }
 
