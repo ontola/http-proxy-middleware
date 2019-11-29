@@ -256,12 +256,13 @@ Providing an alternative way to decide which requests should be proxied; In case
   ```
 
 - **option.onUpgrade**: function, called before upgrading a websocket connection.
+
   ```javascript
-    onUpgrade: async (ctx) => {
-      // add session middleware to the websocket connection
-      // see option.app
-      await session(ctx, () => {});
-    }
+  onUpgrade: async ctx => {
+    // add session middleware to the websocket connection
+    // see option.app
+    await session(ctx, () => {});
+  };
   ```
 
 - **option.app**: koa app, used to generate a koa ctx to be used in onUpgrade. If left blank, a object containing only `req` will be used as context
@@ -270,6 +271,7 @@ Providing an alternative way to decide which requests should be proxied; In case
 - **option.ws**: true/false: if you want to proxy websockets
 - **option.xfwd**: true/false, adds x-forward headers
 - **option.changeOrigin**: true/false, Default: false - changes the origin of the host header to the target URL
+- **option.protocol**: Agent protocol ('http' or 'https'). Defaults to 'http'
 - **option.proxyTimeout**: timeout (in millis) when proxy receives no response from target
 - **option.proxyName**: Proxy name used for Via header
 

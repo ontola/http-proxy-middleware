@@ -1,4 +1,5 @@
-import { request } from 'http';
+import * as http from 'http';
+import * as https from 'https';
 
 import * as finalhandler from 'finalhandler';
 import * as proxy from 'http2-proxy';
@@ -60,7 +61,18 @@ export class KoaHttp2Proxy {
   };
 
   private handleReq = ctx => (req, options) => {
-    const proxyReq = request(options);
+    let agent;
+    if (
+      this.proxyOptions.protocol === null ||
+      /^(http|ws):?$/.test(this.proxyOptions.protocol)
+    ) {
+      agent = http;
+    } else if (/^(http|ws)s:?$/.test(this.proxyOptions.protocol)) {
+      agent = https;
+    } else {
+      throw new Error('invalid protocol');
+    }
+    const proxyReq = agent.request(options);
 
     if (!this.proxyOptions.changeOrigin) {
       proxyReq.setHeader('host', req.headers.host);
