@@ -1,4 +1,5 @@
-import { request } from 'http';
+import { request as requestHttp } from 'http';
+import { request as requestHttps } from 'https';
 
 import * as finalhandler from 'finalhandler';
 import * as proxy from 'http2-proxy';
@@ -44,6 +45,7 @@ export class KoaHttp2Proxy {
       proxy.web(
         ctx.req,
         ctx.res,
+        //@ts-ignore
         this.prepareProxyRequest(ctx, resolve),
         this.defaultWebHandler(ctx, resolve, reject)
       )
@@ -60,7 +62,16 @@ export class KoaHttp2Proxy {
   };
 
   private handleReq = ctx => (req, options) => {
-    const proxyReq = request(options);
+    let proxyReq;
+    const target = this.applyRouter(req, this.proxyOptions);
+    const uri = url.parse(target);
+
+    if (uri.protocol === 'http:') {
+      proxyReq = requestHttp(options);
+    } else {
+      proxyReq = requestHttps(options);
+    }
+    
 
     if (!this.proxyOptions.changeOrigin) {
       proxyReq.setHeader('host', req.headers.host);
@@ -111,6 +122,7 @@ export class KoaHttp2Proxy {
       }
 
       const activeProxyOptions = this.prepareProxyRequest(ctx, null);
+      //@ts-ignore
       proxy.ws(req, socket, head, activeProxyOptions, this.defaultWSHandler);
       this.logger.info('[HPM] Upgrading to WebSocket');
     }
