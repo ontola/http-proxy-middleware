@@ -1,6 +1,6 @@
 {
-  "name": "koa-http2-proxy",
-  "version": "0.0.5",
+  "name": "@hvdb/koa-http2-proxy",
+  "version": "0.0.6",
   "description": "Configure http2-proxy middleware with ease for koa.",
   "main": "dist/index.js",
   "files": [
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ontola/koa-http2-proxy.git"
+    "url": "https://github.com/hvdb/koa-http2-proxy.git"
   },
   "keywords": [
     "reverse",
@@ -41,9 +41,9 @@
   "author": "Steven Chim, Ontola BV",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ontola/koa-http2-proxy/issues"
+    "url": "https://github.com/hvdb/koa-http2-proxy/issues"
   },
-  "homepage": "https://github.com/ontola/koa-http2-proxy",
+  "homepage": "https://github.com/hvdb/koa-http2-proxy",
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
@@ -87,5 +87,9 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }
